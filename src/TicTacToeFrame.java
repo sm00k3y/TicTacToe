@@ -16,9 +16,6 @@ public class TicTacToeFrame extends JFrame implements ActionListener{
         this.setSize(400,400);
         this.setLocationRelativeTo(null);
 
-        int a = 5;
-
-
         JPanel thePanel = new JPanel();
 
         przycisk1 = new JButton("Click me!");
