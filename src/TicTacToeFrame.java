@@ -73,6 +73,7 @@ public class TicTacToeFrame extends JFrame implements ActionListener{
 
     public boolean engine() {
         //IMPLEMENT METHODS HERE
+        return false;
     }
 
     public boolean checkVertical() {
