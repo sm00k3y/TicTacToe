@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.UIManager;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +20,12 @@ public class TicTacToeFrame extends JFrame implements ActionListener{
         this.setSize(400,400);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         JPanel thePanel = new JPanel();
         JPanel titlePanel = new JPanel();
@@ -53,18 +60,18 @@ public class TicTacToeFrame extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         for(int i=0; i<p.length; i++) {
             for(int j=0; j<p[i].length; j++) {
-                if (e.getSource() == p[i][j]) {
+                if (e.getSource() == p[i][j] && p[i][j].getText().equals("")) {
                     if (whichPlayer == 0) {
                         p[i][j].setText("O");
                         whichPlayer = 1;
                         player.setText("Player: \"X\"");
-                        if(engine()) break;
+                        if(engine()) finish();
 
                     } else {
                         p[i][j].setText("X");
                         whichPlayer = 0;
                         player.setText("Player: \"O\"");
-                        if(engine()) break;
+                        if(engine()) finish();
                     }
                 }
             }
@@ -72,8 +79,11 @@ public class TicTacToeFrame extends JFrame implements ActionListener{
     }
 
     public boolean engine() {
-        //IMPLEMENT METHODS HERE
-        return false;
+        if(checkDiagonal() || checkHorizontal() || checkVertical()) {
+            if(whichPlayer==1) player.setText("Player \"O\" won!");
+            else player.setText("Player \"X\" won!");
+            return true;
+        } else return false;
     }
 
     public boolean checkVertical() {
@@ -109,5 +119,30 @@ public class TicTacToeFrame extends JFrame implements ActionListener{
             }
         }
         return false;
+    }
+
+    public void finish() {
+
+        GridLayout layout = new GridLayout(4,1);
+
+        JFrame theFrame = new JFrame("LOL");
+        theFrame.setSize(400,400);
+        theFrame.setLocationRelativeTo(null);
+        theFrame.setResizable(false);
+        theFrame.setLayout(layout);
+        theFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        JLabel label = new JLabel("WINNER WINNER CHICKEN DINNER");
+        label.setFont(new Font("Calibri", Font.BOLD, 25));
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+
+        JLabel label2 = new JLabel();
+        label2.setFont(new Font("Calibri", Font.BOLD, 22));
+        label2.setHorizontalAlignment(SwingConstants.CENTER);
+        if(whichPlayer==1) label2.setText("Player \"O\" won!");
+        else label2.setText("Player \"X\" won!");
+
+        theFrame.add(label2);
+        theFrame.add(label);
+        theFrame.setVisible(true);
     }
 }
